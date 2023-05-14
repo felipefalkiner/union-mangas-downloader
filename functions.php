@@ -38,20 +38,20 @@ function downloadChapter($url, $title)
 
     $manga = str_replace(" ", "_", $title);
     $chapter = basename($url);
-	
-	if (!file_exists("mangas/$manga")) {
+
+    if (!file_exists("mangas/$manga")) {
         mkdir("mangas/$manga", 0777, true);
     }
 
     if (!file_exists("mangas/$manga/$chapter")) {
         mkdir("mangas/$manga/$chapter", 0777, true);
     } else {
-		echo "Pasta do Capítulo $chapter já encontrado, pulando!\n";
-		echo "Para evitar isso, delete a pasta \"mangas\\$manga\\$chapter\"\n";
-		echo "Começando Próximo Capítulo!\n";
-		echo "-----------------------------------\n";
-		return;
-	}
+        echo "Pasta do Capítulo $chapter já encontrado, pulando!\n";
+        echo "Para evitar isso, delete a pasta \"mangas\\$manga\\$chapter\"\n";
+        echo "Começando Próximo Capítulo!\n";
+        echo "-----------------------------------\n";
+        return;
+    }
 
     $response = $httpClient->request(
         "GET",
@@ -64,7 +64,7 @@ function downloadChapter($url, $title)
     });
 
     $zip->open(
-        "mangas/$manga/$manga-$chapter.cbr",
+        "mangas/$manga/$manga-$chapter.cbz",
         ZipArchive::OVERWRITE | ZipArchive::CREATE
     );
 
@@ -94,7 +94,7 @@ function downloadChapter($url, $title)
 
     $zip->close();
 
-    echo "$manga Cap: $chapter baixado e CBR criado!\n";
+    echo "$manga Cap: $chapter baixado e CBZ criado!\n";
     echo "Começando Próximo Capítulo!\n";
     echo "-----------------------------------\n";
 }

@@ -27,7 +27,7 @@ for ($i = 1; $i <= 197; $i++) {
     }
 
     $zip->open(
-        "mangas/$manga/$manga-$chapter.cbr",
+        "mangas/$manga/$manga-$chapter.cbz",
         ZipArchive::OVERWRITE | ZipArchive::CREATE
     );
 
@@ -57,7 +57,7 @@ for ($i = 1; $i <= 197; $i++) {
 
     $zip->close();
 
-    echo "$manga Cap: $chapter baixado e CBR criado!\n";
+    echo "$manga Cap: $chapter baixado e CBZ criado!\n";
     echo "Começando Próximo Capítulo!\n";
     echo "-----------------------------------\n";
 }
