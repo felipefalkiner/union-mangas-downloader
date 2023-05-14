@@ -1,16 +1,45 @@
 <?php
 
-for ($i = 1; $i <= 197; $i++) {
-    require "vendor/autoload.php";
+function getChapters($url)
+{
+    $httpClient = new \Goutte\Client();
+    $response = $httpClient->request("GET", $url);
+
+    $chapters = [];
+    $response->filter(".capitulos")->each(function ($node) use (&$chapters) {
+        $chapters[] = $node->filter("a")->attr("href");
+    });
+
+    return array_reverse($chapters);
+}
+
+function getTitle($url)
+{
+    $httpClient = new \Goutte\Client();
+
+    $response = $httpClient->request("GET", $url);
+
+    $content = [];
+    $response
+        ->filter("div.breadcrumbs div.container div a")
+        ->each(function ($node) use (&$content) {
+            $content[] = $node->text();
+        });
+
+    return $content[2];
+}
+
+function downloadChapter($url, $title)
+{
     $httpClient = new \Goutte\Client();
     $zip = new ZipArchive();
 
-    $manga = "Solo_Leveling";
-    $chapter = str_pad($i, 2, "0", STR_PAD_LEFT);
+    $manga = str_replace(" ", "_", $title);
+    $chapter = basename($url);
 
     $response = $httpClient->request(
         "GET",
-        "https://unionleitor.top/leitor/$manga/$chapter"
+        $url
     );
 
     $pages = [];
@@ -30,9 +59,9 @@ for ($i = 1; $i <= 197; $i++) {
         "mangas/$manga/$manga-$chapter.cbr",
         ZipArchive::OVERWRITE | ZipArchive::CREATE
     );
-	
-	echo "Baixando $manga - Cap: $chapter\n";
-	
+
+    echo "Baixando $title - Cap: $chapter\n";
+
     foreach ($pages as $page) {
         $filename = basename($page);
         $download = "mangas/$manga/$chapter/$filename";
@@ -64,23 +93,3 @@ for ($i = 1; $i <= 197; $i++) {
     echo "Começando Próximo Capítulo!\n";
     echo "-----------------------------------\n";
 }
-
-echo "DOWNLOADS FINALIZADOS";
-
-// debug
-// foreach ($pages as $page){
-
-// if (strpos($page, 'banner_scan.png') == false && strpos($page, 'banner_forum.png') == false) {
-// echo basename($page);
-// echo "\n";
-
-// }
-
-// foreach ($pages as $page){
-
-// if (strpos($page, 'banner_scan.png') == false && strpos($page, 'banner_forum.png') == false) {
-// echo $page."\n";
-// }
-
-// }
-?>
