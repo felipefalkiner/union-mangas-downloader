@@ -1,5 +1,7 @@
 <?php
 
+require "vendor/autoload.php";
+
 function getChapters($url)
 {
     $httpClient = new \Goutte\Client();
@@ -73,8 +75,6 @@ function downloadChapter($url, $title)
             continue;
         }
 
-        // echo "Baixando $download;\n";
-
         $ch = curl_init($page);
         $fp = fopen($download, "wb");
         curl_setopt($ch, CURLOPT_FILE, $fp);
@@ -83,7 +83,6 @@ function downloadChapter($url, $title)
         curl_close($ch);
         fclose($fp);
 
-        // echo "Adicionando $filename ao zip do Capítulo: $chapter\n";
         $zip->addFile("mangas/$manga/$chapter/$filename", $filename);
     }
 

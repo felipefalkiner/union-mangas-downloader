@@ -30,9 +30,9 @@ for ($i = 1; $i <= 197; $i++) {
         "mangas/$manga/$manga-$chapter.cbr",
         ZipArchive::OVERWRITE | ZipArchive::CREATE
     );
-	
-	echo "Baixando $manga - Cap: $chapter\n";
-	
+
+    echo "Baixando $manga - Cap: $chapter\n";
+
     foreach ($pages as $page) {
         $filename = basename($page);
         $download = "mangas/$manga/$chapter/$filename";
@@ -44,8 +44,6 @@ for ($i = 1; $i <= 197; $i++) {
             continue;
         }
 
-        // echo "Baixando $download;\n";
-
         $ch = curl_init($page);
         $fp = fopen($download, "wb");
         curl_setopt($ch, CURLOPT_FILE, $fp);
@@ -54,7 +52,6 @@ for ($i = 1; $i <= 197; $i++) {
         curl_close($ch);
         fclose($fp);
 
-        // echo "Adicionando $filename ao zip do Capítulo: $chapter\n";
         $zip->addFile("mangas/$manga/$chapter/$filename", $filename);
     }
 
@@ -66,21 +63,3 @@ for ($i = 1; $i <= 197; $i++) {
 }
 
 echo "DOWNLOADS FINALIZADOS";
-
-// debug
-// foreach ($pages as $page){
-
-// if (strpos($page, 'banner_scan.png') == false && strpos($page, 'banner_forum.png') == false) {
-// echo basename($page);
-// echo "\n";
-
-// }
-
-// foreach ($pages as $page){
-
-// if (strpos($page, 'banner_scan.png') == false && strpos($page, 'banner_forum.png') == false) {
-// echo $page."\n";
-// }
-
-// }
-?>
