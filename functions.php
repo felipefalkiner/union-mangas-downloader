@@ -38,6 +38,20 @@ function downloadChapter($url, $title)
 
     $manga = str_replace(" ", "_", $title);
     $chapter = basename($url);
+	
+	if (!file_exists("mangas/$manga")) {
+        mkdir("mangas/$manga", 0777, true);
+    }
+
+    if (!file_exists("mangas/$manga/$chapter")) {
+        mkdir("mangas/$manga/$chapter", 0777, true);
+    } else {
+		echo "Pasta do Capítulo $chapter já encontrado, pulando!\n";
+		echo "Para evitar isso, delete a pasta \"mangas\\$manga\\$chapter\"\n";
+		echo "Começando Próximo Capítulo!\n";
+		echo "-----------------------------------\n";
+		return;
+	}
 
     $response = $httpClient->request(
         "GET",
@@ -48,14 +62,6 @@ function downloadChapter($url, $title)
     $response->filter(".img-manga")->each(function ($node) use (&$pages) {
         $pages[] = $node->filter("img")->attr("src");
     });
-
-    if (!file_exists("mangas/$manga")) {
-        mkdir("mangas/$manga", 0777, true);
-    }
-
-    if (!file_exists("mangas/$manga/$chapter")) {
-        mkdir("mangas/$manga/$chapter", 0777, true);
-    }
 
     $zip->open(
         "mangas/$manga/$manga-$chapter.cbr",
