@@ -71,6 +71,7 @@ function downloadChapter($url, $title)
     echo "Baixando $title - Cap: $chapter\n";
 
     foreach ($pages as $page) {
+		$page = str_replace(" ","%20",$page);
         $filename = basename($page);
         $download = "mangas/$manga/$chapter/$filename";
 

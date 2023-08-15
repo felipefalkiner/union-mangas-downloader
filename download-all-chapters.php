@@ -3,7 +3,7 @@
 require_once 'functions.php';
 
 //Mudar a URL do Mangá aqui:
-$url = "https://unionleitor.top/pagina-manga/boku-no-hero-academia-pt-br";
+$url = "https://guimah.com/perfil/V0lTOGpKb0FDYVRBdERLWEU2bjVrZVFEdjcrMDhwK2VlMFllcWVKSmQ3SVg=";
 
 $chapters = getChapters($url);
 

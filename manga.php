@@ -1,16 +1,16 @@
 <?php
 
-for ($i = 1; $i <= 197; $i++) {
+for ($i = 1; $i <= 1; $i++) {
     require "vendor/autoload.php";
     $httpClient = new \Goutte\Client();
     $zip = new ZipArchive();
 
-    $manga = "Solo_Leveling";
+    $manga = "Boku_no_Hero_Academia_(pt-br)";
     $chapter = str_pad($i, 2, "0", STR_PAD_LEFT);
 
     $response = $httpClient->request(
         "GET",
-        "https://unionleitor.top/leitor/$manga/$chapter"
+        "https://guimah.com/leitor/STl6aXpMa1NCSlRqcEcyV0k4WHlsZklKLzdlMnpOT0xZZ0lkOXJ0Qkp1bFNjZWc9/$chapter"
     );
 
     $pages = [];
@@ -34,6 +34,7 @@ for ($i = 1; $i <= 197; $i++) {
     echo "Baixando $manga - Cap: $chapter\n";
 
     foreach ($pages as $page) {
+		$page = str_replace(" ","%20",$page);
         $filename = basename($page);
         $download = "mangas/$manga/$chapter/$filename";
 
